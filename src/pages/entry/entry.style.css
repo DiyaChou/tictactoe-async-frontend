@@ -1,0 +1,33 @@
+#entry {
+    font-family: 'Bilbo', cursive;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.entry__titles {
+    padding: 4em;
+    text-align: center;
+}
+
+.entry__titles>span:nth-child(1) {
+    font-size: 2em;
+    display: block;
+}
+
+.entry__titles>span:nth-child(2) {
+    font-size: 6em;
+    display: block;
+}
+
+.absolute_button_container {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0em 1em;
+}

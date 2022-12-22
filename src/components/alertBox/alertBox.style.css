@@ -1,0 +1,17 @@
+.alert_box {
+    padding: 1.4em 1em;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 400;
+    color: white;
+    margin-bottom: 1em;
+    border-radius: 0.7em;
+    font-size: 0.9em;
+}
+
+.success {
+    background-color: #6FCF97
+}
+
+.error {
+    background-color: #EB5757
+}

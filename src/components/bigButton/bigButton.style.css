@@ -1,0 +1,22 @@
+.big_button {
+    color: white;
+    font-size: medium;
+    border-radius: 0.7em;
+    padding: 1em 0em;
+    margin-bottom: 1em;
+    text-transform: capitalize;
+    cursor: pointer;
+}
+
+.yellow {
+    background-color: #F2C94C;
+}
+
+.blue {
+    background-color: #2F80ED;
+}
+
+.big_button:disabled {
+    background-color: #E0E0E0;
+    cursor: default;
+}

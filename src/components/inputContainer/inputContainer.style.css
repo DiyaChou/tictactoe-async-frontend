@@ -1,0 +1,25 @@
+.input_container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.input_container__label {
+    font-size: 0.9em;
+    margin-bottom: 0.8em;
+    text-transform: capitalize;
+}
+
+.input_container__input {
+    line-height: 1em;
+    font-size: 0.9em;
+    padding: 1.2em;
+    background-color: #F4F4F4;
+    border: none;
+    color: #333333;
+
+}
+
+.input_container__input:focus {
+    background-color: white;
+}
