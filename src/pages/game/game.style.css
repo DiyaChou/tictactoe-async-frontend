@@ -1,0 +1,33 @@
+.game__game_piece_container {
+    height: 2em;
+    margin-bottom: 1em;
+}
+
+.game__game_piece_container .fa-xmark,
+.fa-circle {
+    height: 100%;
+}
+
+.heading {
+    text-transform: capitalize;
+    font-family: 'Epilogue', sans-serif;
+    font-weight: 400;
+}
+
+.game_heading2 {
+    margin-bottom: 0em !important;
+}
+
+.game__top_container {}
+
+/* .game__bottom_container {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+} */
+
+.game_page .button_container {
+    flex: 1;
+    justify-content: end;
+}

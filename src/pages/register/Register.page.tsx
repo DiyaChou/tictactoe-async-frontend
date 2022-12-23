@@ -8,6 +8,7 @@ import "../../utils/commonFormPage.style.css";
 import { newUserRegistration } from "./registerationAction";
 import spinner from "../../assets/gif/spinner.gif";
 import { registerReset } from "./registeration.slice";
+import { useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
   const initialData = {
@@ -21,15 +22,15 @@ const Register: React.FC = () => {
   const { isLoading, status, message } = useAppSelector(
     (store) => store.register
   );
-
-  useEffect(() => {
-    console.log(message);
-  }, [dispatch, message]);
+  const navigate = useNavigate();
   useEffect(() => {
     return () => {
       dispatch(registerReset());
     };
   }, [dispatch]);
+  useEffect(() => {
+    localStorage.getItem("token") && navigate("/home");
+  }, [navigate]);
 
   // const dispatch = useDispatch()
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {

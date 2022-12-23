@@ -7,16 +7,20 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import "../../utils/commonFormPage.style.css";
 import { userLogin } from "./login.actions";
 import spinner from "../../assets/gif/spinner.gif";
+import { useNavigate } from "react-router-dom";
+import { loginErrorReset } from "./login.slice";
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const initialState = {
     username: "",
     password: "",
   };
-  const { isLoading, error } = useAppSelector((state) => state.login);
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const { isLoading, error, isAuth } = useAppSelector((state) => state.login);
   const [formData, setFormData] = useState(initialState);
-
+  console.log(isAuth);
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     switch (name) {
@@ -31,12 +35,26 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleLoginOnSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleLoginOnSubmit: React.MouseEventHandler<HTMLButtonElement> = (
+    e
+  ) => {
     e.preventDefault();
-    dispatch(userLogin(formData));
+    setButtonClicked(true);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    localStorage.getItem("token") && navigate("/home");
+  }, [navigate, isAuth]);
+
+  useEffect(() => {
+    if (buttonClicked) dispatch(userLogin(formData));
+  }, [buttonClicked, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(loginErrorReset());
+    };
+  }, [dispatch]);
 
   return (
     <div className="form_page">
@@ -47,7 +65,7 @@ const Login: React.FC = () => {
         <span className="heading">Login</span>
         <span className="heading2">Please enter your details</span>
       </div>
-      <form className="form" onSubmit={handleLoginOnSubmit}>
+      <form className="form">
         <div>
           <InputContainer
             label="username"
@@ -69,7 +87,11 @@ const Login: React.FC = () => {
         <div className="button_container">
           {isLoading && <img src={spinner} alt="Loading" />}
           {error && <AlertBox text={error} variant="error" />}
-          <BigButton text="login" variant="yellow" />
+          <BigButton
+            text="login"
+            variant="yellow"
+            handleOnClick={handleLoginOnSubmit}
+          />
         </div>
       </form>
     </div>

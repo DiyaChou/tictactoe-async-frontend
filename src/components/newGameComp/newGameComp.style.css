@@ -1,0 +1,20 @@
+.new_game_comp__container {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    padding: 0.5em 1em;
+    background: #270F36;
+    color: white;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+
+.new_game_comp__div {
+    position: sticky;
+    font-weight: 700;
+
+}
+
+.new_game_comp__div span {
+    margin-left: 0.5em;
+}

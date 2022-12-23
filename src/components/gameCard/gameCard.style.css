@@ -1,0 +1,18 @@
+.game_card {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2em;
+    border: 1px solid black;
+    padding: 1em;
+}
+
+.game_card__heading {
+    font-weight: 700;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+}
+
+.game_card__status {
+    font-weight: 400;
+    margin-bottom: 1em;
+}

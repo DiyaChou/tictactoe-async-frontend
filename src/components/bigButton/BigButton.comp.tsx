@@ -5,12 +5,13 @@ interface Props {
   variant: string;
   handleOnClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
+  class?: string;
 }
 
 const BigButton = (props: Props) => {
   return (
     <button
-      className={`big_button ${props.variant}`}
+      className={`big_button ${props.variant} ${props.class}`}
       onClick={props.handleOnClick}
       disabled={props.disabled}
     >
