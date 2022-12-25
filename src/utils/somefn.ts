@@ -37,6 +37,7 @@ export const shouldButtonBeDisabled = ({
       if (selectedComponent !== null) return false;
     }
   }
+  if (status === "drawn" || "won") return false;
   return true;
 };
 

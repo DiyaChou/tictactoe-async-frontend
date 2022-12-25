@@ -3,8 +3,8 @@ import "../../utils/commonFormPage.style.css";
 import Header from "../../components/header/Header.comp";
 import "./game.style.css";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { getSingleGame, submitTurn } from "./game.actions";
-import { useParams } from "react-router-dom";
+import { getSingleGame, startAnotherGame, submitTurn } from "./game.actions";
+import { useNavigate, useParams } from "react-router-dom";
 import spinner from "../../assets/gif/spinner.gif";
 import GamePiece from "../../components/gamePiece/GamePiece.comp";
 import BoardContainer from "../../components/boardContainer/BoardContainer.comp";
@@ -15,11 +15,10 @@ import { submitTurnReset } from "./submitTurn.slice";
 import { shouldButtonBeDisabled } from "../../utils/somefn";
 
 const Game = () => {
-  const { isLoading, status, game, error } = useAppSelector(
-    (state) => state.game
-  );
-
-  const submit = useAppSelector((state) => state.submit);
+  const { isLoading, status, game, error, startAnotherGameError, new_game_id } =
+    useAppSelector((state) => state.game);
+  const submitState = useAppSelector((state) => state.submit);
+  const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState<number | null>(
     null
   );
@@ -33,28 +32,50 @@ const Game = () => {
 
   useEffect(() => {
     if (submitClicked) {
-      gameId &&
-        selectedComponent !== null &&
-        dispatch(submitTurn({ board_pos: selectedComponent, gameId }));
-      setSelectedComponent(null);
-      setSubmitClicked(false);
+      if (game.status === "ongoing") {
+        gameId &&
+          selectedComponent !== null &&
+          dispatch(submitTurn({ board_pos: selectedComponent, gameId }));
+        setSelectedComponent(null);
+        setSubmitClicked(false);
+        return;
+      }
+      if (game.status === "won" || "drawn") {
+        dispatch(startAnotherGame(game.opponent.email));
+        new_game_id && navigate(`/game/${new_game_id}`);
+        return;
+      }
     }
-  }, [submitClicked, dispatch, gameId, selectedComponent]);
+  }, [
+    submitClicked,
+    dispatch,
+    gameId,
+    selectedComponent,
+    game.opponent.email,
+    game.status,
+    new_game_id,
+    navigate,
+  ]);
+
+  useEffect(() => {
+    console.log(submitClicked);
+  }, [submitClicked]);
 
   useEffect(() => {
     gameId && dispatch(getSingleGame(gameId));
-  }, [dispatch, gameId, status]);
+  }, [dispatch, gameId]);
+  useEffect(() => {}, [game]);
 
   useEffect(() => {
     return () => {
       dispatch(resetGame());
       dispatch(submitTurnReset());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="form_page game_page">
-      {isLoading ? (
+      {isLoading || submitState.isLoading ? (
         <img src={spinner} alt="loading" />
       ) : (
         <>
@@ -63,12 +84,12 @@ const Game = () => {
               <Header />
             </div>
             <div className="heading_container">
-              {game.opponent_name && (
+              {game.opponent.name && (
                 <span className="heading2 game_heading2">
                   Game with{" "}
                   {`${
-                    game.opponent_name.charAt(0).toUpperCase() +
-                    game.opponent_name.slice(1)
+                    game.opponent.name.charAt(0).toUpperCase() +
+                    game.opponent.name.slice(1)
                   }`}
                 </span>
               )}
@@ -93,8 +114,13 @@ const Game = () => {
               )}
           </div>
           <div className="button_container">
+            {startAnotherGameError && (
+              <AlertBox text={startAnotherGameError} variant="error" />
+            )}
             {error && <AlertBox text={error} variant="error" />}
-            {submit.error && <AlertBox text={submit.error} variant="error" />}
+            {submitState.error && (
+              <AlertBox text={submitState.error} variant="error" />
+            )}
             {game.button_message && game.isMyTurn !== undefined && (
               <BigButton
                 text={game.button_message}

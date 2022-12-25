@@ -13,7 +13,7 @@ const GameStatus = (params: Params) => {
       {status && status === "drawn"
         ? "It's a draw"
         : status && status === "won"
-        ? winner && winner === "you"
+        ? winner && winner === "You"
           ? "You won"
           : "You lost"
         : status && status === "ongoing"

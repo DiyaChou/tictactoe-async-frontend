@@ -1,6 +1,6 @@
 import axios from "axios";
 import { SubmitParams } from "../interface";
-const baseUrl = "http://localhost:3001";
+const baseUrl = process.env.REACT_APP_BASE_URL;
 const gameUrl = baseUrl + "/game";
 
 const sendGameInviteAPICall = (email: string) => {

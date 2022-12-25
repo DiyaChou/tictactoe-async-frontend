@@ -34,10 +34,10 @@ const BoardContainer = (params: Params) => {
       <div className="board_container">
         {board.map((item, i) => {
           return (
-            <div className="board_piece">
+            <div className="board_piece" key={i}>
               {item && item === "x" ? (
                 <FontAwesomeIcon icon={faClose} />
-              ) : item === "o" ? (
+              ) : item && item === "o" ? (
                 <FontAwesomeIcon icon={faCircle} />
               ) : (
                 <div

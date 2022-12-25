@@ -10,9 +10,10 @@ const sendPlayerInvite = (email: string) => async (dispatch: AppDispatch) => {
   dispatch(gameInvitePending());
   try {
     const result: any = await sendGameInviteAPICall(email);
-    dispatch(gameInviteSuccess(result.message));
+    console.log("result of sendPlayerInvite", result);
+    dispatch(gameInviteSuccess(result));
   } catch (error: any) {
-    dispatch(gameInviteFail(error.message));
+    dispatch(gameInviteFail(error.response.data.message));
   }
 };
 

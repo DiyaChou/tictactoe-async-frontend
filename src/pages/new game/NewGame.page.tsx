@@ -24,7 +24,6 @@ const NewGame: React.FC = () => {
   ) => {
     e.preventDefault();
     dispatch(sendPlayerInvite(email));
-    // dispatch(newUserRegistration(formData));
   };
 
   useEffect(() => {

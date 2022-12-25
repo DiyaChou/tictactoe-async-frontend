@@ -4,17 +4,7 @@ const initialState = {
   isLoading: false,
   status: "",
   error: "",
-  games: [
-    // {
-    //   createdAt: "string",
-    //   game_id: "string",
-    //   isMyTurn: undefined,
-    //   lastUpdated: "string",
-    //   opponent_name: "string",
-    //   status: "string",
-    //   winner: null,
-    // },
-  ],
+  games: [],
 };
 
 const slice = createSlice({

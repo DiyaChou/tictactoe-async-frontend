@@ -16,7 +16,7 @@ const slice = createSlice({
     gameInviteSuccess: (state, { payload }) => {
       state.isLoading = false;
       state.status = "success";
-      state.message = payload;
+      state.message = payload.message;
     },
     gameInviteFail: (state, { payload }) => {
       state.isLoading = false;

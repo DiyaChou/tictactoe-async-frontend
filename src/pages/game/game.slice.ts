@@ -4,7 +4,7 @@ const initialState = {
   status: "",
   game: {
     board: [],
-    opponent_name: "",
+    opponent: { name: "", email: "" },
     isMyTurn: undefined,
     amIX: "",
     status: "",
@@ -12,6 +12,10 @@ const initialState = {
     button_message: "",
   },
   error: "",
+  startAnotherGameIsLoading: false,
+  new_game_id: "",
+  startAnotherGameError: "",
+  startAnotherGameStatus: "",
 };
 
 const slice = createSlice({
@@ -37,7 +41,7 @@ const slice = createSlice({
       state.status = "";
       state.game = {
         board: [],
-        opponent_name: "",
+        opponent: { name: "", email: "" },
         isMyTurn: undefined,
         amIX: "",
         status: "",
@@ -45,12 +49,38 @@ const slice = createSlice({
         button_message: "",
       };
       state.error = "";
+      state.startAnotherGameIsLoading = false;
+      state.new_game_id = "";
+      state.startAnotherGameError = "";
+      state.startAnotherGameStatus = "";
+    },
+
+    startAnotherGamePending: (state) => {
+      state.startAnotherGameIsLoading = true;
+    },
+    startAnotherGameSuccess: (state, { payload }) => {
+      state.startAnotherGameIsLoading = false;
+      state.startAnotherGameStatus = "success";
+      state.new_game_id = payload;
+    },
+    startAnotherGameFail: (state, { payload }) => {
+      state.startAnotherGameIsLoading = false;
+
+      state.startAnotherGameStatus = "error";
+      state.startAnotherGameError = payload;
     },
   },
 });
 
 const { actions, reducer } = slice;
 
-export const { fetchGamePending, fetchGameSuccess, fetchGameFail, resetGame } =
-  actions;
+export const {
+  fetchGamePending,
+  fetchGameSuccess,
+  fetchGameFail,
+  resetGame,
+  startAnotherGamePending,
+  startAnotherGameSuccess,
+  startAnotherGameFail,
+} = actions;
 export default reducer;
