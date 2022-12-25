@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "../../utils/commonFormPage.style.css";
-import Header from "../../components/header/Header.comp";
 import "./game.style.css";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { getSingleGame, startAnotherGame, submitTurn } from "./game.actions";
 import { useNavigate, useParams } from "react-router-dom";
 import spinner from "../../assets/gif/spinner.gif";
-import GamePiece from "../../components/gamePiece/GamePiece.comp";
-import BoardContainer from "../../components/boardContainer/BoardContainer.comp";
-import BigButton from "../../components/bigButton/BigButton.comp";
-import AlertBox from "../../components/alertBox/AlertBox.comp";
+import {
+  Header,
+  GamePiece,
+  BoardContainer,
+  BigButton,
+  AlertBox,
+} from "../../components";
 import { resetGame } from "./game.slice";
 import { submitTurnReset } from "./submitTurn.slice";
 import { shouldButtonBeDisabled } from "../../utils/somefn";
@@ -22,6 +24,8 @@ const Game = () => {
   const [selectedComponent, setSelectedComponent] = useState<number | null>(
     null
   );
+  const [buttonState, setButtonState] = useState(false);
+  const [newGame, setNewGame] = useState(false);
   const [submitClicked, setSubmitClicked] = useState(false);
   const { gameId } = useParams();
   const dispatch = useAppDispatch();
@@ -31,6 +35,14 @@ const Game = () => {
   };
 
   useEffect(() => {
+    game.isMyTurn !== undefined &&
+      setButtonState(
+        shouldButtonBeDisabled({
+          status: game.status,
+          isMyTurn: game.isMyTurn,
+          selectedComponent,
+        })
+      );
     if (submitClicked) {
       if (game.status === "ongoing") {
         gameId &&
@@ -42,7 +54,9 @@ const Game = () => {
       }
       if (game.status === "won" || "drawn") {
         dispatch(startAnotherGame(game.opponent.email));
-        new_game_id && navigate(`/game/${new_game_id}`);
+        setNewGame(true);
+        console.log("new_game_id", new_game_id);
+        setSubmitClicked(false);
         return;
       }
     }
@@ -54,17 +68,24 @@ const Game = () => {
     game.opponent.email,
     game.status,
     new_game_id,
+    game.isMyTurn,
     navigate,
   ]);
 
   useEffect(() => {
-    console.log(submitClicked);
-  }, [submitClicked]);
+    if (newGame) {
+      console.log("newGame", newGame);
+      if (new_game_id) {
+        console.log("newGame new_game_id", newGame);
+        setNewGame(false);
+        navigate(`/game/${new_game_id}`);
+      }
+    }
+  }, [newGame, new_game_id, navigate]);
 
   useEffect(() => {
     gameId && dispatch(getSingleGame(gameId));
-  }, [dispatch, gameId]);
-  useEffect(() => {}, [game]);
+  }, [gameId, dispatch]);
 
   useEffect(() => {
     return () => {
@@ -126,11 +147,7 @@ const Game = () => {
                 text={game.button_message}
                 variant="yellow"
                 handleOnClick={handleGameOnSubmit}
-                disabled={shouldButtonBeDisabled({
-                  status: game.status,
-                  isMyTurn: game.isMyTurn,
-                  selectedComponent,
-                })}
+                disabled={buttonState}
               />
             )}
           </div>

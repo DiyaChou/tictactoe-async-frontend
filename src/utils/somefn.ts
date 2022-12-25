@@ -36,8 +36,8 @@ export const shouldButtonBeDisabled = ({
     if (isMyTurn) {
       if (selectedComponent !== null) return false;
     }
-  }
-  if (status === "drawn" || "won") return false;
+  } else if (status === "drawn" || "won") return false;
+
   return true;
 };
 

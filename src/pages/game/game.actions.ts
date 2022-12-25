@@ -46,6 +46,7 @@ const startAnotherGame = (email: string) => async (dispatch: AppDispatch) => {
   dispatch(startAnotherGamePending());
   try {
     const result: any = await sendGameInviteAPICall(email);
+    console.log(result);
     dispatch(startAnotherGameSuccess(result.gameId));
   } catch (error: any) {
     dispatch(startAnotherGameFail(error.response.data.message));

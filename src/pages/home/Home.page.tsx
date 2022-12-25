@@ -30,7 +30,6 @@ const Home = () => {
       ) : (
         <>
           {games.map((item: Game, i) => {
-            console.log(item);
             return <GameCard key={i} gameInfo={item} />;
           })}
           <NewGameComponent />

@@ -1,5 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialState = {
+
+interface GameInitialState {
+  isLoading: boolean;
+  status: string;
+  game: {
+    board: string[];
+    opponent: {
+      name: string;
+      email: string;
+    };
+    isMyTurn: undefined | boolean;
+    amIX: string;
+    status: string;
+    message: string;
+    button_message: string;
+  };
+  error: string;
+  startAnotherGameIsLoading: boolean;
+  new_game_id: string;
+  startAnotherGameError: string;
+  startAnotherGameStatus: string;
+}
+
+const initialState: GameInitialState = {
   isLoading: false,
   status: "",
   game: {
@@ -62,10 +85,10 @@ const slice = createSlice({
       state.startAnotherGameIsLoading = false;
       state.startAnotherGameStatus = "success";
       state.new_game_id = payload;
+      state.startAnotherGameError = "";
     },
     startAnotherGameFail: (state, { payload }) => {
       state.startAnotherGameIsLoading = false;
-
       state.startAnotherGameStatus = "error";
       state.startAnotherGameError = payload;
     },

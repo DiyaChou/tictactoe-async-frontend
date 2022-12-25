@@ -20,7 +20,6 @@ const Login: React.FC = () => {
   const [buttonClicked, setButtonClicked] = useState(false);
   const { isLoading, error, isAuth } = useAppSelector((state) => state.login);
   const [formData, setFormData] = useState(initialState);
-  console.log(isAuth);
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     switch (name) {
